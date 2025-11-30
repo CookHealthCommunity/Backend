@@ -1,4 +1,5 @@
 # app/services/dynamo_db.py
+# DynamoDB 관련 서비스 함수들
 
 import boto3
 import time
