@@ -1,4 +1,5 @@
 # app/routers/posts.py
+# 게시글 관련 라우터 정의
 
 import uuid
 from typing import List
