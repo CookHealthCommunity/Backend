@@ -1,4 +1,6 @@
 # app/main.py
+# FastAPI 애플리케이션 초기화 및 라우터 설정
+
 
 from fastapi import FastAPI
 from .routers import posts

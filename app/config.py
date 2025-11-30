@@ -1,5 +1,5 @@
 # app/config.py
-# AWS 자격 증명(Credential)은 보안상 환경 변수나 IAM Role을 통해 관리해야 합니다. 개발 단계에서는 환경 변수를 사용해 Boto3가 AWS에 접속하도록 설정합니다.
+# AWS 자격 증명(Credential) 및 설정 로드
 
 import os
 from dotenv import load_dotenv
