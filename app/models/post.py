@@ -1,4 +1,5 @@
 # app/models/post.py
+# 게시글 모델 정의 (Pydantic 사용)
 
 from pydantic import BaseModel, Field
 from typing import List, Optional
