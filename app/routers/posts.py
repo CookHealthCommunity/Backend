@@ -3,13 +3,13 @@
 
 import uuid
 from typing import List
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException, status
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, status, Depends # [CW 추가] Depends 추가
 from pydantic import ValidationError
 
 from ..models.post import PostCreate, PostResponse
 from ..services.aws_s3 import upload_file_to_s3
 from ..services.dynamo_db import create_post_item
-
+from .auth import get_current_user # [CW 추가]
 router = APIRouter()
 
 @router.post("/", 
@@ -24,6 +24,7 @@ async def create_post(
     title: str = Form(...),
     content: str = Form(...),
     post_type: str = Form(...),
+    current_user: dict = Depends(get_current_user)  # CW 추가
 ):
     
     # 1. Pydantic 모델로 폼 데이터 유효성 검사
@@ -36,7 +37,8 @@ async def create_post(
         )
         
     # **임시 사용자 ID** (로그인 연동 전까지 사용)
-    temp_user_id = "SH_Worker" 
+    temp_user_id = current_user.get('nickname', 'Unknown') # CW 추가
+    #temp_user_id = "SH_Worker" 
     
     # S3와 DynamoDB에 사용할 고유 게시글 ID를 미리 생성합니다.
     new_post_id = str(uuid.uuid4()) 
