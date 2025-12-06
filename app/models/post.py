@@ -4,14 +4,13 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
-# 게시글 생성을 위한 입력 데이터 모델 (Pydantic)
+# 1. 게시글 생성 요청 모델
 class PostCreate(BaseModel):
     title: str = Field(min_length=1, max_length=100)
     content: str
-    # 게시판 타입: 커뮤니티, 식단, 라이브러리 중 하나를 강제합니다.
+    # 게시판 타입: 커뮤니티, 식단, 라이브러리 
     post_type: str = Field(pattern="^(커뮤니티|식단|라이브러리)$") 
     
-    # 폼 데이터와 함께 오므로 Config 설정을 추가 (FastAPI 공식 문서 참조)
     class Config:
         from_attributes = True
         json_schema_extra = {
@@ -22,13 +21,26 @@ class PostCreate(BaseModel):
             }
         }
 
-# 응답용 모델 (DB에 저장된 데이터 형식)
+# 2. 게시글 응답 모델 
 class PostResponse(BaseModel):
     post_id: str
     user_id: str
     title: str
     content: str
     post_type: str
-    file_urls: List[str]
+    file_urls: List[str] = []
     created_at: str
-    # ... 필요한 다른 필드 추가
+    
+    
+    view_count: int = 0
+    feedback_count: int = 0
+
+    class Config:
+        from_attributes = True
+
+# 3. 게시글 수정 요청 모델
+class PostUpdate(BaseModel):
+    title : str = Field(min_length=1, max_length=100)
+    content : str
+    post_type: str = Field(pattern="^(커뮤니티|식단|라이브러리)$")
+
